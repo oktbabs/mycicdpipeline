@@ -3,7 +3,9 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                echo 'Checking out code as per the situation'
+              withCredentials([gitUsernamePassword(credentialsId: '73b3562f-8684-4049-a7c1-ff8983c89640', gitToolName: 'git')]) {
+                 git clone 
+              }
             }
         }
         stage('Build') {
