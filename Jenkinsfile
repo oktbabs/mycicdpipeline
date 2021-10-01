@@ -4,7 +4,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
               withCredentials([gitUsernamePassword(credentialsId: '73b3562f-8684-4049-a7c1-ff8983c89640', gitToolName: 'git')]) {
-               sh 'git clone https://github.com/oktbabs/mycicdpipeline.git'
+               sh 'git clone https://github.com/oktbabs/spring-boot-mongo-docker.git'
               }
             }
         }
@@ -26,6 +26,19 @@ pipeline {
         stage('Upload Binary to nexus') {
             steps {
                 echo 'Uploading binaries to Nexus Repo'
+                nexusArtifactUploader artifacts: [
+                    [artifactId: 'spring-boot-mongo', 
+                     classifier: '', 
+                     file: 'target/spring-boot-mongo-1.0', 
+                     type: 'war']
+                ], 
+                    credentialsId: 'NEXUS3_CREDS', 
+                    groupId: 'com.mt', 
+                    nexusUrl: 'jenkinserver.mycompany.com:8081', 
+                    nexusVersion: 'nexus3', 
+                    protocol: 'http', 
+                    repository: 'timmyfirstnexus', 
+                    version: '1.0'
             }
         }
         stage('Deploy to DEV') {
