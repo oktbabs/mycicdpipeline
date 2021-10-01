@@ -4,7 +4,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
               withCredentials([gitUsernamePassword(credentialsId: '73b3562f-8684-4049-a7c1-ff8983c89640', gitToolName: 'git')]) {
-                 git clone 
+               sh 'git clone https://github.com/oktbabs/mycicdpipeline.git'
               }
             }
         }
